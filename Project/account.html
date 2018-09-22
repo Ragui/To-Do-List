@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<title>Log In</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="jquery-ui.css" />
+	<link rel="stylesheet" href="jquery.dataTables.min.css" />
+	<link rel="stylesheet" href="MyPoor.css" />
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<script src="jquery.js"></script>
+	<script src="jquery-ui.js"></script>
+<style>
+input, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+table{
+ position: fixed;
+    bottom: 500;
+    right: 350;
+}
+
+button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+ div {
+        width:70%; 
+    margin-left:40%; 
+    margin-right:15%;
+  }
+
+body {
+    background-image: url("Logo.jpg");
+	background-repeat: no-repeat;
+	background-size: 1280px 600px;
+}
+
+</style>
+	
+<script>
+var users=[];
+$.getJSON('users.json',function (data) {
+		users = data;
+	});
+
+function account(){
+	var str="<form method=\"post\" action=\"http://127.0.0.1:8081/LogIn\" onsubmit=\"return CheckSign()\">";
+	str +="<h>Your Name</h></br>";
+	str +="<input id=\"namo\" type=\"text\" name=\"nom\"></br>";
+	str +="<h>Email</h></br>";
+	str +="<input id=\"mailo\" type=\"text\" name=\"mail\"></br>";
+	str +="<h>Password</h></br>";
+	str +="<input id=\"passo\" type=\"password\" name=\"mot\"></br>";
+	str +="<button type=\"submit\" value=\"Submit\">Create Account</button>";
+	str +="</form>";
+	document.getElementById("sign").innerHTML=str;
+}
+
+function CheckSign(){
+	var Name=document.getElementById("namo").value;
+	var Mail=document.getElementById("mailo").value;
+	var pass=document.getElementById("passo").value;
+	var atpos = Mail.indexOf("@");
+    var dotpos = Mail.lastIndexOf(".");
+	
+	if(/^[a-zA-Z]+$/.test(Name) == false)
+	{
+		alert("Name shouldn't be empty or begin with space.\n Name should contain only letters.");
+		return false;
+	}
+	else if(Mail == "" || Mail.charAt(0) == ' ' )
+	{
+		alert("Mail shouldn't be empty or begin with space.");
+		return false;
+	}
+	else if(!Mail.includes("@") || !Mail.includes("."))
+	{
+	    
+		alert("Mail should contain '@' and '.' \n example: mail@example.com");
+		return false;
+	}
+	else if(atpos<1 || dotpos<atpos+2 || dotpos+2>=Mail.length)
+	{
+        alert("Not a valid e-mail address");
+        return false;
+	}
+	else if(pass == "")
+	{
+		alert("Password shouldn't be empty");
+		return false;
+	}
+	else if(pass.length<5)
+	{
+		alert("Password length must be 5 or over.");
+		return false;
+	}
+	else
+	{var flag=0;
+	for(var i=0;i<users.length;i++){
+	if(users[i].mail == Mail)
+	{
+	alert("Mail already exist.Enter another one.");
+	return false;
+	flag =1;
+	break;
+	}
+	
+	}
+	if(flag=0)
+	{return true;}
+	}
+
+}
+</script>
+</head>
+<body>
+<div>
+<table>
+<tr>
+<td id="sign" >
+<button onclick="account()">Sign Up</button>
+</td>
+<td>
+<form action="http://127.0.0.1:8081/logo" method="post" >
+<button type="submit" >Log in</button>
+</form>
+</td>
+</tr>
+</table>
+
+</div>
+</body>
+</html>

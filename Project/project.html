@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<title>Log In</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href=""+__dirname +"/public/jquery-ui.css" />
+	<link rel="stylesheet" href=""+__dirname +"/public/jquery.dataTables.min.css" />
+	<link rel="stylesheet" href=""+__dirname +"/public/MyPoor.css" />
+	<link rel="stylesheet" href=""+__dirname +"/public/bootstrap.min.css">
+	<script src=""+__dirname +"/public/jquery.js"></script>
+	<script src=""+__dirname +"/public/jquery-ui.js"></script>
+	
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    text-align: left;
+    padding: 8px;
+	font-size:18px;
+}
+td {
+    text-align: left;
+	height: 60px;
+    padding: 8px;
+	font-size:22px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+#ta{
+    width: 100%;
+	height:650px;
+}
+
+#title{
+    margin-top:2px;
+	font-weight: bold;
+	font-size:35px;
+	color:#008CBA;
+}
+
+#butt{
+    margin-bottom:7px;
+}
+	
+input:focus, textarea:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  padding: 12px 20px;
+    margin: 8px 0;
+  border: 3px solid rgba(81, 203, 238, 1);
+  font-size: 18px;
+}
+input, select {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+	font-size: 18px;
+}
+
+input[title="editdate"]{
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+	font-size: 18px;
+}
+
+button{
+    background-color: #008CBA;
+	border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	border-radius: 8px;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    left: 100%;
+    margin-left: 0;
+    margin-right: -1px;
+	margin-top: 0px;
+    top: 20%;
+	
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 25%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+li a,b {
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+	font-weight: bold;
+	font-size:15px;
+}
+
+li b.active {
+    background-color: #4CAF50;
+    color: white;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size:15px;
+
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+label{
+    font-size:20px;
+	font-weight:bold;
+}
+
+</style>
+
+<script src="js.js"></script>
+
+
+</head>
+
+<body id="name123">
+
+<ul>
+<li class="nav-brand">
+
+
+                    <b href="#"><img class="img-rounded" src="logo.png"   style="width:270px;height:270px;"></b>
+                </li>
+	<li><b class="active" href="#Title" >Choose A Type</b></li>			
+  <li><a  name="choose"  checked onclick="Alltasks()" href="#All tasks" >All tasks   (<h id="w">0</h>)</a></li>
+  <li><a name="choose" onclick="Inprogress ()" href="#In progress">In progress   (<h id="x">0</h>)</a></li>
+  <li><a name="choose" onclick="completed ()" href="#Completed tasks">Completed tasks   (<h id="y">0</h>)</a></li>
+  <li><a name="choose" onclick="archived ()" href="#Archived">Archived               (<h id="z">0</h>)</a></li>
+  <li>  </li>
+  <li><form onsubmit="return logout()" action="http://127.0.0.1:8081/SignIn">
+<button type="submit" >Log Out</button>
+</form></li>
+  
+</ul>
+
+<div style="margin-left:25%;padding:1px 16px;height:1000px;">
+
+<h id="ll">
+
+<h id="myTable">
+
+<h id="title">All Tasks</h>
+<table>
+<th class="dropdown" >
+<button class="dropbtn">Actions</button>
+<div class="dropdown-content">
+<a href="#" onclick="DelCheck()">Delete checked</a>
+<a href="#" onclick="archCheck()" id="arall">Archive checked</a>
+<a href="#" onclick="doneCheck()" id="dall">Complete checked</a>
+<a href="#" onclick="sort_name()" id="butt">Sort by name</a>
+<a href="#" onclick="sort_date()" id="butt">Sort by date</a>
+</div>
+</th>
+<th width="30%">Task name</th>
+<th width="30%">Date</th>
+<th width="30%">Task Actions</th>
+</table>
+</h>
+
+<h id="addtask">
+</h>
+
+<h id="mm">
+<button onclick="add_not()">Add new task</button>
+</h>
+
+
+</h>
+
+</div>
+
+</body>
+</html> 
